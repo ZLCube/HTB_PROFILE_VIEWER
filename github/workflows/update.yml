@@ -1,0 +1,41 @@
+name: Update HTB README Stats
+
+on:
+  workflow_dispatch:
+    inputs:
+      htb_user:
+        description: "HTB user ID or public profile URL"
+        required: false
+        default: "1132645"
+      theme:
+        description: "Theme: purple, htb, dark"
+        required: false
+        default: "purple"
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      HTB_USER: ${{ github.event.inputs.htb_user || vars.HTB_USER || '1132645' }}
+      HTB_THEME: ${{ github.event.inputs.theme || vars.HTB_THEME || 'purple' }}
+      HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
+      OUTPUT_DIR: public/htb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: pip install -e .
+      - name: Generate SVG card
+        run: htb-readme-stats --user "$HTB_USER" --theme "$HTB_THEME" --output-dir "$OUTPUT_DIR"
+      - name: Commit generated assets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update HTB README stats"
+          file_pattern: "public/htb/*.svg public/htb/*.json"
