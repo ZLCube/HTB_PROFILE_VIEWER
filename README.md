@@ -4,6 +4,14 @@ Static Hack The Box stats cards for GitHub README files.
 
 This project generates an SVG card with GitHub Actions and publishes it through GitHub Pages. No Vercel, Render, serverless API, or backend hosting required.
 
+## Preview
+
+<p align="center">
+  <a href="https://app.hackthebox.com/public/users/1132645">
+    <img width="70%" src="https://ZLCube.github.io/htb-readme-stats/public/htb/card.svg" alt="Hack The Box stats" />
+  </a>
+</p>
+
 ## Setup
 
 1. Create a new public repo, for example `htb-readme-stats`.
